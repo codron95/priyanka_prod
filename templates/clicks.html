@@ -1,0 +1,595 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Priyanka Sharma</title>
+<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+<link href='https://cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="all" href='{% static "css/jquery.flex-images.css" %}' />
+<script type="text/javascript" src='{% static "js/jquery.flex-images.min.js" %}'></script>
+<script>
+var index=0;
+var photodata="{% for photo in photos %}{{photo.file.url}},{% endfor %}";
+var photoid="{% for photo in photos %}{{photo.id}},{% endfor %}";
+var photoids=photoid.split(',');
+var control;
+
+$(document).ready(function(){
+
+	reveal();
+
+	$('#arrow-left').click(function(){
+	  image_array=photodata.split(",");
+	  setphoto(photodata,1);
+	});
+  
+	$('#arrow-right').click(function(){
+	  setphoto(photodata);
+	});
+  
+});
+
+
+function reveal(){
+	$('#caret').hide();
+	$('.font-subheads').css("opacity","1");
+	$('#nav').css("opacity","1");
+	$('.footer').css("opacity","1");
+}
+
+function openphoto(x,id)
+{
+	$(document.body).css('overflow-y','hidden');
+	photodata=x;
+	images_array=x.split(",");
+	index=photoids.indexOf(''+id);
+	$('#imageoverlay').fadeIn(300);
+	console.log(images_array.length);
+	
+	$('#imagesuperoverlay').attr("src",images_array[index]);
+	h=$('#imagesuperoverlay').height();
+	$('#imagesuperoverlay').css('marginTop',-1*(h/2));
+	setcomments();
+	
+}
+
+function setphoto(x,flag=0)
+{
+	len=images_array.length;
+	if(flag==0)
+		if(index==len-2)
+			index=0;
+		else
+			index++;
+	else
+		if(index==0)
+		{
+			index=len-2;
+		}
+		else
+			index--;
+	images_array=x.split(",");
+	console.log(index);
+	$('#imagesuperoverlay').fadeOut(300, function(){
+	$('#imagesuperoverlay').attr("src",images_array[index]).bind('onreadystatechange load', function(){
+		h=$('#imagesuperoverlay').height();
+		$('#imagesuperoverlay').css('marginTop',-1*(h/2));
+         if (this.complete) $(this).fadeIn(300)
+		 })
+	});
+	setcomments();
+}
+
+function setcomments()
+{
+	$.ajax({
+		url:"/fetch/",
+		type:"post",
+		data:{id:photoids[index]},
+		dataType:'json',
+		success:function(response){
+			$('.comment-box').html('');
+			if(!response['name'].length)
+				$('<p><span class="comment-date">No Comments</span><p>').appendTo('#comment');
+			for(i=0;i<response['name'].length;i++)
+			{
+				str=response['created_date'][i].replace("T"," ");
+				date=str.substr(0,19);
+				$('<div class="comment"><p><span class="font comment-head"><span class="font-blue">'+response['name'][i]+'</span> - <span class="comment-date">'+date+'</span></span></p><p><span class="comment-body">-'+response['content'][i]+'</span></p></div>').appendTo('.comment-box');
+			}
+		},
+		failure:function(response){
+			alert('failed');
+		}
+	});
+}
+
+function comment()
+{
+	name=$('#name').val();
+	email=$('#email').val();
+	content=$('#content').val();
+	$.ajax({
+		url:"/create/",
+		type:"post",
+		data:{id:photoid[index],name:name,email:email,content:content},
+		success:function(response){
+			setcomments();
+		},
+		failure:function(response){
+			alert('Oops');
+		}
+	});
+}
+
+function closephoto(){
+	$('#imageoverlay').hide();
+	$(document.body).css('overflow-y','scroll');
+}
+
+</script>
+<style>
+	html{
+		padding:0;
+		border:0;
+		margin:0;
+	}
+
+	body{
+		padding-top:80px;
+		width:100%;
+		min-width:1000px;
+		min-height:600px;
+		margin:0;
+		background-color: #404040;
+		background-repeat:no-repeat;
+		background-size:cover;
+
+	}
+
+	.front{
+		width:100%;
+		height:auto;
+		padding:0;
+		margin:0;
+		position:relative;
+	}
+
+	.font{
+		font-family: 'Titillium Web', sans-serif;
+	}
+
+	.font-title{
+		font-size:28px;
+		font-weight:550;
+		color:#555555;
+	}
+
+	.font-title-child{
+		font-size:18px;
+		color:#5C76AC;
+	}
+
+	.font-subheads{
+		font-size:19px;
+		color:#555555;
+		opacity:0;
+		transition:all 0.3s linear;
+	}
+
+	.font-post-title{
+		font-size:22px;
+		color:#5C76A4;
+		font-weight:600;
+	}
+
+	.font-post-body{
+		font-size:16px;
+		color:#555555;
+		text-justify:auto;
+	}
+
+	.footer{
+		width:100%;
+		height:40px;
+		margin-top:40px;
+	}
+
+	.social{
+		padding:5px 10px;
+		font-size:18px;
+		color:#ddd;
+	}
+
+	#nav,.footer{
+		opacity:0;
+		transition:all 0.3s linear;
+	}
+
+	.shift-left{
+		margin-right:20px;
+	}
+
+	hr{
+		padding:0;
+		border-color:#eee;
+		margin:0;
+	}
+
+	#nav-ul li{
+		position:relative;
+	}
+
+	#nav-ul li ul{
+		display:none;
+		padding:0;
+		list-style:none;
+		position:absolute;
+		top:50px;
+		left:0;
+		background-color:white;
+	}
+
+	#nav-ul li ul li{
+		display:block;
+		padding:15px 20px;
+		text-decoration:none;
+		
+	}
+
+	#nav-ul li a{
+		color:#eee;
+	}
+
+	#nav-ul li ul li a{
+		text-decoration:none;
+		color:#404040;
+		
+	}
+
+	#nav-ul li:hover{
+		color:black;
+		cursor:pointer;
+		background-color:#eee;
+	}
+
+	#nav-ul li:hover a{
+		color:#404040;
+	}
+
+	#nav-ul li:hover ul{
+		display:block;
+	}
+
+	#nav-ul li ul li:hover{
+		display:block;
+		background-color:#eee;
+	}
+
+	.active a{
+		background-color:#ddd;
+		color:#404040 !important;
+	}
+
+	.title-padding{
+		padding-left:80px;
+	}
+
+	.container-content{
+		margin-top:30px;
+	}
+
+	.content{
+		background-color:white;
+		border-radius:2px;
+		padding:10px 10px;
+	}
+
+	.post-body{
+		margin-top:30px;
+	}
+
+	.post-body p{
+		font-size:16px;
+		color:#555555;
+		text-justify:auto;
+		font-family: 'Titillium Web', sans-serif;
+	}
+
+	.controls{
+		margin-top:50px;
+		padding:10px 5px;
+	}
+
+	.control-left{
+		display:block;
+		float:left;
+	}
+
+	.control-left a,.control-right a{
+		color:white;
+		text-decoration:none;
+	}
+
+	.control-right{
+		display:block;
+		float:right;
+	}
+
+	.content:nth-child(2){
+		margin-left:10px;
+	}
+
+	.sidebar{
+		list-style:none;
+		padding:0;
+		margin:0;
+		padding:8px 0px;
+	}
+
+	.sidebar{
+		list-style:none;
+		padding:0;
+		margin:0;
+		padding:8px 0px;
+	}
+
+	.sidebar li{
+		padding:5px 0px;
+	}
+
+	.sidebar li a{
+		text-decoration:none;
+	}
+
+	.hide{
+		display:none;
+	}
+
+	.font-gray{
+		color:#dddddd;
+	}
+
+	.imageoverlay{
+		width:100%;
+		height:100%;
+		top:0;
+		left:0;
+		z-index:9998;
+		position:fixed;
+		background-color:rgba(0,0,0,0.8);
+		display:none;
+	}
+
+	.close-button{
+		float:right;
+		margin-right:5px;
+		background-color:#ffffff;
+		border-radius:50%;
+		color:black;
+	}
+
+	#arrow-left{
+		cursor:pointer;
+		color:white;
+		font-size:60px;
+		display:block;
+		width:40px;
+		height:40px;
+		position:absolute;
+		left:20px;
+		top:50%;
+		margin-top:-50px;
+	}
+
+	#arrow-right{
+		cursor:pointer;
+		color:white;
+		font-size:60px;
+		display:block;
+		width:40px;
+		height:40px;
+		position:absolute;
+		right:30px;
+		top:50%;
+		margin-top:-50px; 
+	}
+
+	.controls{
+		display:block; 
+		position:fixed;
+		width:90%;
+		height:600px;
+		left:50%;
+		top:50%;
+		margin-left:-45%;
+		margin-top:-300px; 
+		transition:all 0.3s linear;
+		padding:0;
+	}
+
+	#imagesuperoverlay{
+		width:70%;
+		height:auto;
+		position:absolute;
+		left:50%;
+		top:50%;
+		margin-left:-35%;
+
+	}
+
+	.comment-container{
+		background-color:white;
+		height:100%;
+		padding:10px 10px;
+		overflow-y:scroll;
+	}
+
+	.imgcontainer{
+		height:100%;
+		background-color:black;
+	}
+
+	.comment{
+		width:100%;
+		height:auto;
+		padding:10px 10px;
+		background-color:#eee;
+		margin-top:5px;
+	}
+
+	.comment-head{
+		font-size:16px;
+	}
+
+	.comment-date{
+		font-size:14px;
+	}
+
+	.font-blue{
+		color:#2BA1CB;
+	}
+
+	.comment-body{
+		padding-left:20px;
+		text-justify:auto;
+	}
+
+	.comment-date{
+		font-weight:500;
+	}
+
+	.text{
+		width:49%;
+		height:40px;
+		padding-left:5px;
+	}
+
+	.textarea{
+		width:100%;
+		margin-top:5px;
+	}
+
+	.submit{
+		margin-top:5px;
+		background-color:#2BA1CB;
+		padding-left:5px;
+	}
+
+</style>
+</head>
+
+<body>
+<nav id="nav" class="navbar navbar-fixed-top">
+  <div class="container-fluid">
+    
+    <ul id="nav-ul" class="nav navbar-nav pull-right shift-left">
+      <li class="active"><a href="/">About</a></li>
+      <li><a>Scribles</a>
+      	<ul>
+        	<li><a href="/scrible/published/">Published</a></li><hr>
+            <li><a href="/scrible/stories/">Stories</a></li><hr>
+            <li><a href="/scrible/travelogue/">Travelogues</a></li>
+        </ul>
+      </li>
+      <li><a>Clicks</a>
+      <ul>
+        	<li><a href="/clicks/people">People</a></li><hr>
+            <li><a href="/clicks/nature">Nature</a></li><hr>
+        </ul>
+      </li>  
+    </ul>
+  </div>
+</nav>
+
+<!-- image overlay -->
+<div class="imageoverlay" id="imageoverlay">
+	<p align="right">
+		<span onclick="closephoto()" class="btn btn-info close-button">X</span>
+	</p>
+	<div id="controls" class="controls row">
+		<div class="col-lg-8 imgcontainer">
+			<i id="arrow-left" class="fa fa-arrow-left"></i>
+	    	<i id="arrow-right" class="fa fa-arrow-right"></i>
+	    	<img id="imagesuperoverlay"/>
+		</div>
+    
+    	<div class="col-lg-4 comment-container">
+
+    		<p class="comment-form">
+				<input id="name" type="text" class="text" placeholder="Name" name="name"/>
+				<input id="email" type="text" class="text" placeholder="Email" name="email"/>
+				<textarea id="content" rows="5" class="textarea" placeholder="Post A Comment" name="content"></textarea>
+				<span onclick="comment()" class="btn btn-info submit">Submit</span>
+				
+			</p>
+
+			<p class="post-title">
+            	<span class="font font-post-title">Comments</span>
+			</p>
+			
+			<div class="comment-box"></div>
+			
+    	</div>
+    </div>
+</div>
+
+
+<section id="front" class="front">
+<p class="title-padding" align="left"><span class="font font-title font-gray">Clicks</span> <span class="font font-title-child">- {{type|title}}</span></p>
+<p class="title-padding" align="left"></p>
+<div class="container container-content">
+	<div class="row">
+		<div class="col-lg-12 content">
+			<div class="flex-images">
+				{% for photo in photos %}
+					<div onclick="openphoto(photodata,$(this).data('id'))" data-id="{{photo.id}}" class="item" data-w="{{photo.file.width}}" data-h="{{photo.file.height}}"><img src="{{photo.file.url}}"></div>
+    			{% endfor %}
+		</div>
+		<script type="text/javascript">
+			$('.flex-images').flexImages({rowHeight: 200});
+			</script>
+		</div>
+
+		
+        <!-- Sidebar
+		<div class="col-lg-4 content">
+        <p class="post-title">
+            	<span class="font font-post-title">Recent {{type|title}}</span>
+		</p>
+        <hr />
+        
+        <ul class="sidebar font font-post-body">
+        {% for recent in recents %}
+        <li><a href="/scrible/{{recent.post_type}}/{{recent.id}}/">{{recent.head}}</a></li><hr />
+        {% endfor %}
+        </ul>
+        
+        
+        <p class="post-title">
+            	<span class="font font-post-title">Recent Clicks</span>
+		</p>
+        <hr />
+        
+        <ul class="sidebar font font-post-body">
+        <li><a href="#"></a></li><hr />
+        <li><a href="#">A journey into Chinese Food</a></li><hr />
+        </ul>
+		</div>-->
+
+</div>
+</div>
+
+</section>
+
+<p align="center" class="footer">
+<a href="#" class="social"><i class="fa fa-facebook"></i></a>
+<a href="#" class="social"><i class="fa fa-twitter"></i></a>
+<a href="#" class="social"><i class="fa fa-google-plus"></i></a></p>
+</body>
+</html>
