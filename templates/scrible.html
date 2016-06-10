@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -38,10 +39,11 @@ body{
 	min-width:1000px;
 	min-height:600px;
 	margin:0;
-	background: #deefff;
+	background-image:url({% static "" %}{{bg}});
+	background-color: #deefff;
 	background-repeat:no-repeat;
+	background-attachment:fixed;
 	background-size:cover;
-
 }
 
 .front{
@@ -59,12 +61,12 @@ body{
 .font-title{
 	font-size:28px;
 	font-weight:550;
-	color:#555555;
+	color:white;
 }
 
 .font-title-child{
 	font-size:18px;
-	color:#5C76AC;
+	color:white;
 }
 
 .font-subheads{
@@ -296,6 +298,25 @@ hr{
 .comment-date{
 	font-weight:500;
 }
+
+.post-image{
+	display:block;
+	margin:0 auto;
+	width:90%;
+	height:auto;
+	margin-top:20px;
+}
+
+.post-body img{
+	display:block;
+	margin:0 auto;
+
+}
+
+.font-social{
+	font-size:22px;
+}
+
 </style>
 </head>
 
@@ -318,6 +339,7 @@ hr{
             <li><a href="/clicks/nature">Nature</a></li><hr>
         </ul>
       </li>  
+      <li><a href="/contact">Contact</a></li> 
     </ul>
   </div>
 </nav>
@@ -331,13 +353,16 @@ hr{
 			<p class="post-title">
             	<span class="font font-post-title">{{current.head}}</span>
 			</p>
+
             
             <p class="post-detail">
             	<span class="font font-post-detail">Posted On : {{current.created_date}}</span>
 			</p>
             
+            {% if current.file.name != "0" %}<img class="post-image" src="{{ current.file.url }}"/>{% endif %}
+
 			<div class="post-body">
-            	{{current.content|linebreaks}}
+            	{% autoescape off %}{{current.content}}{% endautoescape %}
 			</div>
             
             <p class="controls" align="center">
@@ -361,15 +386,8 @@ hr{
         </ul>
         
         
-        <p class="post-title">
-            	<span class="font font-post-title">Recent Clicks</span>
-		</p>
-        <hr />
         
-        <ul class="sidebar font font-post-body">
-        <li><a href="#"></a></li><hr />
-        <li><a href="#">A journey into Chinese Food</a></li><hr />
-        </ul>
+        
 		</div>
 
 </div>
@@ -429,8 +447,8 @@ hr{
 </section>
 
 <p align="center" class="footer">
-<a href="#" class="social"><i class="fa fa-facebook"></i></a>
-<a href="#" class="social"><i class="fa fa-twitter"></i></a>
-<a href="#" class="social"><i class="fa fa-google-plus"></i></a></p>
+<a href="https://www.facebook.com/profile.php?id=830062295" class="social"><i class="fa fa-facebook font-social"></i></a>
+<a href="https://twitter.com/Sharmaprijanka" class="social"><i class="fa fa-twitter font-social"></i></a>
+<a href="#" class="social"><i class="fa fa-google-plus font-social"></i></a></p>
 </body>
 </html>

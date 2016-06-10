@@ -1,0 +1,342 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Priyanka Sharma</title>
+<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+<link href='https://cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script>
+var index=0;
+$(document).ready(function(){
+	interval=setInterval(function(){fade_in_random();},150);
+	setTimeout(function(){reveal();},150*8);
+});
+
+function fade_in_random()
+{
+	$('l').eq(index).fadeIn(1);
+	index++;
+	
+	if(index==8)
+	clearInterval(index);
+}
+
+function reveal(){
+	$('#caret').hide();
+	$('.font-subheads').css("opacity","1");
+	$('#nav').css("opacity","1");
+	$('.footer').css("opacity","1");
+	$('#head-container').addClass('top-align');
+	$('#subheads-container').addClass('top-align');
+	$('.subscribe-container').fadeIn(300);
+}
+</script>
+
+<style>
+html{
+	padding:0;
+	border:0;
+	margin:0;
+	height:100%;
+	width:100%;
+}
+
+
+body{
+	padding:0;
+	width:100%;
+	height:100%;
+	min-width:1000px;
+	min-height:600px;
+	margin:0;
+	background-image:url({% static "contact_bg.jpg" %});
+	background-color: #404040;
+	background-repeat:no-repeat;
+	background-size:cover;
+
+}
+
+@-webkit-keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+        @keyframes blinker { from {opacity:1.0;} to {opacity:0.0;} }
+
+.blink {
+   text-decoration:blink;
+
+  -webkit-animation-name:blinker;
+          animation-name:blinker;  
+  -webkit-animation-iteration-count:infinite;  
+          animation-iteration-count:infinite;  
+  -webkit-animation-timing-function:cubic-bezier(1.0,0,0,1.0);
+          animation-timing-function:cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-duration:1s; 
+          animation-duration:1s; 
+}
+
+.front{
+	position:fixed;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	padding:0;
+	margin:0;
+	position:relative;
+}
+
+.font{
+	font-family: 'Titillium Web', sans-serif;
+}
+
+.font-title{
+	font-size:28px;
+	font-weight:550;
+	color:#ddd;
+}
+
+.font-subheads{
+	font-size:19px;
+	color:#ddd;
+	transition:all 0.3s linear;
+}
+
+.center-align{
+	height:50px;
+	width:100%;
+	position:absolute;
+	top:42%;
+	margin-top:-25px;
+}
+
+.top-align{
+	top:30%;
+	transition:all linear 0.2s;
+}
+
+.center-align:nth-child(2)
+{
+	top:50%;
+}
+
+.top-align:nth-child(2){
+	top:38%;
+}
+
+l{
+	display:none;
+}
+
+.footer{
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:40px;
+}
+
+.social{
+	padding:5px 10px;
+	font-size:18px;
+	color:#ddd;
+}
+
+#nav,.footer{
+	opacity:0;
+	transition:all 0.3s linear;
+	min-width:1000px;
+}
+
+.shift-left{
+	margin-right:20px;
+}
+
+hr{
+	padding:0;
+	border-color:#eee;
+	margin:0;
+}
+
+#nav-ul li{
+	position:relative;
+}
+
+#nav-ul li ul{
+	padding:0;
+	list-style:none;
+	position:absolute;
+	top:50px;
+	left:0;
+	background-color:white;
+	display:none;
+}
+
+#nav-ul li ul li{
+	display:block;
+	padding:15px 20px;
+	text-decoration:none;
+	
+}
+
+#nav-ul li a{
+	color:#eee;
+}
+
+#nav-ul li ul li a{
+	text-decoration:none;
+	color:#404040;
+	
+}
+
+#nav-ul li:hover{
+	color:black;
+	cursor:pointer;
+	background-color:#eee;
+}
+
+#nav-ul li:hover a{
+	color:#404040;
+}
+
+#nav-ul li:hover ul{
+	display:block;
+}
+
+#nav-ul li ul li:hover{
+	display:block;
+	background-color:#eee;
+}
+
+.active a{
+	background-color:#ddd;
+	color:#404040 !important;
+}
+
+.font-white{
+	color:#ddd;
+}
+
+.subscribe-container{
+	position:absolute;
+	top:60%;
+	width:100%;
+	height:auto;
+}
+
+.subscribe-input{
+	width:40%;
+	height:40px;
+	border:black;
+	background-color:#eee;
+	padding-left:20px;
+	border-radius:2px;
+	font-size:20px;
+	font-weight:500;
+}
+
+.btn-custom{
+	width:5%;
+	height:40px;
+	background-color:#aaa;
+	border:none;
+	box-shadow:none;
+	position:relative;
+	top:-3px;
+	font-size:16px;
+	color:#eee;
+	padding-top:10px;
+	text-align:center;
+}
+
+.btn-custom:hover{
+	background-color:#777;
+	color:#ddd;
+}
+
+::-webkit-input-placeholder{
+	color:#777;
+}
+
+.font-white{
+	color:white;
+}
+
+.subheads-container{
+	width:40%;
+	margin-left:-20%;
+	left:50%;
+	margin-top:50px;
+}
+
+.table-highlight{
+	background-color:#777777;
+}
+
+.padded{
+	padding-left:20px !important;
+}
+
+.font-social{
+	font-size:22px;
+}
+
+</style>
+</head>
+
+<body>
+<nav id="nav" class="navbar navbar-fixed-top">
+  <div class="container-fluid">
+    
+    <ul id="nav-ul" class="nav navbar-nav pull-right shift-left">
+      <li><a href="/">About</a></li>
+      <li><a>Scribles</a>
+      	<ul>
+        	<li><a href="/scrible/published/">Published</a></li><hr>
+            <li><a href="/scrible/stories/">Stories</a></li><hr>
+            <li><a href="/scrible/travelogue/">Travelogues</a></li>
+        </ul>
+      </li>
+      <li><a>Clicks</a>
+      <ul>
+        	<li><a href="/clicks/people">People</a></li><hr>
+            <li><a href="/clicks/nature">Nature</a></li><hr>
+        </ul>
+      </li> 
+      <li class="active"><a href="/contact">Contact</a></li> 
+    </ul>
+  </div>
+</nav>
+
+<section id="front" class="front">
+<p id="head-container" class="center-align" align="center">
+<span class="font font-title">
+<l>R</l><l>E</l><l>A</l><l>C</l><l>H</l> <l>M</l><l>E</l><span id="caret" class="blink">|</span>
+</span>
+</p>
+<div id="subheads-container" class="center-align container subheads-container" align="center">
+	<table class="table">
+		<tr>
+			<td class="table-highlight"><span class="font-subheads font-white">Email:</span></td>
+			<td class="padded"><span class="font font-subheads font-white">prijankasharma@gmail.com</span></td>
+		</tr>
+		<tr>
+			<td class="table-highlight"><span class="font-subheads font-white">Call Me:</span></td>
+			<td class="padded"><span class="font font-subheads font-white">+86 13418584710, +91 9871456653</span></td>
+		</tr>
+		<tr><td></td><td></td></tr>
+	</table>
+</div>
+
+</section>
+
+<p align="center" class="footer">
+
+<a href="https://www.facebook.com/profile.php?id=830062295" class="social"><i class="fa fa-facebook font-social font-white"></i></a>
+<a href="https://twitter.com/Sharmaprijanka" class="social"><i class="fa fa-twitter font-social font-white"></i></a>
+<a href="#" class="social"><i class="fa fa-google-plus font-social font-white"></i></a></p>
+</body>
+</html>

@@ -18,6 +18,8 @@ var photodata="{% for photo in photos %}{{photo.file.url}},{% endfor %}";
 var photoid="{% for photo in photos %}{{photo.id}},{% endfor %}";
 var photoids=photoid.split(',');
 var control;
+var no_of_comments=10;
+var comment_threshold=10;
 
 $(document).ready(function(){
 
@@ -25,11 +27,14 @@ $(document).ready(function(){
 
 	$('#arrow-left').click(function(){
 	  image_array=photodata.split(",");
+	  no_of_comments=10;
 	  setphoto(photodata,1);
+	  
 	});
   
 	$('#arrow-right').click(function(){
-	  setphoto(photodata);
+		no_of_comments=10;
+	  	setphoto(photodata);
 	});
   
 });
@@ -90,21 +95,32 @@ function setcomments()
 	$.ajax({
 		url:"/fetch/",
 		type:"post",
-		data:{id:photoids[index]},
+		data:{id:photoids[index],num:no_of_comments},
 		dataType:'json',
 		success:function(response){
 			$('.comment-box').html('');
-			if(!response['name'].length)
-				$('<p><span class="comment-date">No Comments</span><p>').appendTo('#comment');
-			for(i=0;i<response['name'].length;i++)
+			
+			if(!response['name'].length || !response['flag'])
 			{
-				str=response['created_date'][i].replace("T"," ");
-				date=str.substr(0,19);
-				$('<div class="comment"><p><span class="font comment-head"><span class="font-blue">'+response['name'][i]+'</span> - <span class="comment-date">'+date+'</span></span></p><p><span class="comment-body">-'+response['content'][i]+'</span></p></div>').appendTo('.comment-box');
+				$('.comment-more').hide();
 			}
+				for(i=0;i<response['name'].length;i++)
+				{
+					str=response['created_date'][i].replace("T"," ");
+					date=str.substr(0,19);
+					$('<div class="comment"><p><span class="font comment-head"><span class="font-blue">'+response['name'][i]+'</span> - <span class="comment-date">'+date+'</span></span></p><p><span class="comment-body">-'+response['content'][i]+'</span></p></div>').appendTo('.comment-box');
+				}
+
+
+				if(response['flag'])
+				{
+					$('.comment-more').show();
+				}
+				
+			no_of_comments+=comment_threshold;
 		},
 		failure:function(response){
-			alert('failed');
+			alert('There seems to be a problem. Please try again later.');
 		}
 	});
 }
@@ -114,10 +130,11 @@ function comment()
 	name=$('#name').val();
 	email=$('#email').val();
 	content=$('#content').val();
+	id=photoids[index];
 	$.ajax({
 		url:"/create/",
 		type:"post",
-		data:{id:photoid[index],name:name,email:email,content:content},
+		data:{id:id,name:name,email:email,content:content},
 		success:function(response){
 			setcomments();
 		},
@@ -130,6 +147,7 @@ function comment()
 function closephoto(){
 	$('#imageoverlay').hide();
 	$(document.body).css('overflow-y','scroll');
+	no_of_comments=10;
 }
 
 </script>
@@ -143,7 +161,7 @@ function closephoto(){
 	body{
 		padding-top:80px;
 		width:100%;
-		min-width:1000px;
+		min-width:1200px;
 		min-height:600px;
 		margin:0;
 		background-color: #404040;
@@ -167,12 +185,12 @@ function closephoto(){
 	.font-title{
 		font-size:28px;
 		font-weight:550;
-		color:#555555;
+		color:white;
 	}
 
 	.font-title-child{
 		font-size:18px;
-		color:#5C76AC;
+		color:white;
 	}
 
 	.font-subheads{
@@ -395,7 +413,7 @@ function closephoto(){
 		width:40px;
 		height:40px;
 		position:absolute;
-		right:30px;
+		right:10px;
 		top:50%;
 		margin-top:-50px; 
 	}
@@ -420,7 +438,6 @@ function closephoto(){
 		left:50%;
 		top:50%;
 		margin-left:-35%;
-
 	}
 
 	.comment-container{
@@ -481,6 +498,20 @@ function closephoto(){
 		padding-left:5px;
 	}
 
+	.comment-more{
+		padding:10px 10px;
+		cursor:pointer;
+		display:none;
+	}
+
+	.comment-more:hover span{
+		text-decoration:underline;
+	}
+
+	.font-social{
+	font-size:22px;
+}
+
 </style>
 </head>
 
@@ -503,6 +534,7 @@ function closephoto(){
             <li><a href="/clicks/nature">Nature</a></li><hr>
         </ul>
       </li>  
+      <li><a href="/contact">Contact</a></li> 
     </ul>
   </div>
 </nav>
@@ -514,8 +546,8 @@ function closephoto(){
 	</p>
 	<div id="controls" class="controls row">
 		<div class="col-lg-8 imgcontainer">
-			<i id="arrow-left" class="fa fa-arrow-left"></i>
-	    	<i id="arrow-right" class="fa fa-arrow-right"></i>
+			<i id="arrow-left" class="fa fa-angle-left"></i>
+	    	<i id="arrow-right" class="fa fa-angle-right"></i>
 	    	<img id="imagesuperoverlay"/>
 		</div>
     
@@ -534,6 +566,7 @@ function closephoto(){
 			</p>
 			
 			<div class="comment-box"></div>
+			<p class="comment-more"><span onclick="setcomments();" class="font-md font font-blue">View More...</span></p>
 			
     	</div>
     </div>
@@ -588,8 +621,8 @@ function closephoto(){
 </section>
 
 <p align="center" class="footer">
-<a href="#" class="social"><i class="fa fa-facebook"></i></a>
-<a href="#" class="social"><i class="fa fa-twitter"></i></a>
-<a href="#" class="social"><i class="fa fa-google-plus"></i></a></p>
+<a href="https://www.facebook.com/profile.php?id=830062295" class="social"><i class="fa fa-facebook font-social"></i></a>
+<a href="https://twitter.com/Sharmaprijanka" class="social"><i class="fa fa-twitter font-social"></i></a>
+<a href="#" class="social"><i class="fa fa-google-plus font-social"></i></a></p>
 </body>
 </html>

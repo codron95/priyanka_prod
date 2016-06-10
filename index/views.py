@@ -23,6 +23,14 @@ def subscribe(request):
 		return HttpResponse("You are awesome.!")
 
 def scrible(request,type,id=-1):
+	bg="sto_bg.jpg";
+	if type=="stories":
+		bg="sto_bg.jpg";
+	elif type=="travelogues":
+		bg="tra_bg.jpg";
+	elif type=="published":
+		bg="pub_bg.jpg";
+
 	if id==-1:
 		posts=post.objects.filter(post_type=type.strip()).order_by('-created_date')
 		current_post=posts[0]
@@ -67,7 +75,8 @@ def scrible(request,type,id=-1):
 			'hid':'hide','type':type,
 			'recents':recents,
 			'comments':comment_page,
-			'url':request.path,}
+			'url':request.path,
+			'bg':bg,}
 	return render(request,"scrible.html",context)
 
 def clicks(request,type):
@@ -84,19 +93,28 @@ def return_comments(request):
 	content=[]
 	created_date=[]
 	id=request.POST.get('id')
+	num_comments=request.POST.get('num');
+	print(num_comments)
 	current_photo=photo.objects.filter(id=id)
 	try:
-		comments=current_photo[0].comment_photo_set.all().order_by('-created_date')
+		comments=current_photo[0].comment_photo_set.all().order_by('-created_date')[:int(num_comments)]
+		print(len(comments));
+		if len(comments)<int(num_comments):
+			view_more_flag=0;
+		else:
+			view_more_flag=1;
+		
 	except:
 		comments=-1
-
+		view_more_flag=0;
 
 	for result in comments:
 		name.append(result.name)
 		content.append(result.content)
 		created_date.append(result.created_date)
 
-	return HttpResponse(json.dumps({'name':name,'content':content,'created_date':created_date},default=date_handler))
+
+	return HttpResponse(json.dumps({'name':name,'content':content,'created_date':created_date,'flag':view_more_flag},default=date_handler))
 
 @csrf_exempt
 def create_comment(request):
@@ -105,5 +123,8 @@ def create_comment(request):
 	new_comment=comment_photo(name=request.POST['name'],content=request.POST['content'],photo=current_photo[0],email=request.POST['email'])
 	new_comment.save()
 	return HttpResponse("done")
+
+def contact(request):
+	return render(request,"contact.html")
 
 
