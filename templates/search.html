@@ -1,0 +1,498 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Priyanka Sharma</title>
+<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+<link href='https://cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script   src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
+
+
+<script>
+
+$(document).ready(function(){
+	reveal();
+	$('#archive').accordion({active:false,collapsible:true});
+	$('.archive-month-container').accordion({active:false,collapsible:true});
+});
+
+
+function reveal(){
+	$('#caret').hide();
+	$('.font-subheads').css("opacity","1");
+	$('#nav').css("opacity","1");
+	$('.footer').css("opacity","1");
+}
+
+
+</script>
+<style>
+html{
+	padding:0;
+	border:0;
+	margin:0;
+}
+
+body{
+	padding-top:80px;
+	width:100%;
+	min-width:1000px;
+	min-height:600px;
+	margin:0;
+	background-image:url({% static "" %}{{bg}});
+	background-color: #deefff;
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-size:cover;
+}
+
+.front{
+	width:100%;
+	height:auto;
+	padding:0;
+	margin:0;
+	position:relative;
+}
+
+.font{
+	font-family: 'Titillium Web', sans-serif;
+}
+
+.font-title{
+	font-size:28px;
+	font-weight:550;
+	color:white;
+}
+
+.font-title-child{
+	font-size:18px;
+	color:white;
+}
+
+.font-subheads{
+	font-size:19px;
+	color:#555555;
+	opacity:0;
+	transition:all 0.3s linear;
+}
+
+.font-post-title{
+	font-size:22px;
+	color:#5C76A4;
+	font-weight:600;
+}
+
+.font-black{
+	color:#000;
+}
+
+.font-post-body{
+	font-size:16px;
+	color:#555555;
+	text-justify:auto;
+}
+
+.footer{
+	width:100%;
+	height:40px;
+	margin-top:40px;
+}
+
+.social{
+	padding:5px 10px;
+	font-size:18px;
+}
+
+#nav,.footer{
+	opacity:0;
+	transition:all 0.3s linear;
+}
+
+.shift-left{
+	margin-right:20px;
+}
+
+hr{
+	padding:0;
+	border-color:#eee;
+	margin:0;
+}
+
+#nav-ul li{
+	position:relative;
+}
+
+#nav-ul li ul{
+	display:none;
+	padding:0;
+	list-style:none;
+	position:absolute;
+	top:50px;
+	left:0;
+	background-color:white;
+}
+
+#nav-ul li ul li{
+	display:block;
+	padding:15px 20px;
+	text-decoration:none;
+	
+}
+
+#nav-ul li ul li a{
+	text-decoration:none;
+	width:100%;
+	height:100%;
+	display:block;
+	
+}
+
+#nav-ul li:hover{
+	background:none;
+	color:black;
+	cursor:pointer;
+	background-color:#eee;
+}
+
+#nav-ul li:hover ul{
+	display:block;
+}
+
+#nav-ul li ul li:hover{
+	display:block;
+	background-color:#eee;
+}
+
+.active a{
+	background-color:#2BA1CB;
+	color:white;
+}
+
+.title-padding{
+	padding-left:80px;
+}
+
+.container-content{
+	margin-top:30px;
+}
+
+.content{
+	background-color:white;
+	border-radius:2px;
+	padding:30px 10px;
+}
+
+.content:nth-child(1)
+{
+	padding:30px 40px;
+}
+
+.post-body{
+	margin-top:30px;
+}
+
+.post-body p{
+	font-size:16px;
+	color:#555555;
+	text-justify:auto;
+	font-family: 'Titillium Web', sans-serif;
+}
+
+.controls{
+	margin-top:50px;
+	padding:10px 5px;
+}
+
+.control-left{
+	display:block;
+	float:left;
+}
+
+.control-left a,.control-right a{
+	color:white;
+	text-decoration:none;
+}
+
+.control-right{
+	display:block;
+	float:right;
+}
+
+.content:nth-child(2){
+	margin-left:10px;
+}
+
+.sidebar{
+	list-style:none;
+	padding:0;
+	margin:0;
+	padding:8px 0px;
+}
+
+.sidebar{
+	list-style:none;
+	padding:0;
+	margin:0;
+	padding:8px 0px;
+}
+
+.sidebar li{
+	padding:5px 0px;
+}
+
+.sidebar li a{
+	text-decoration:none;
+}
+
+.hide{
+	display:none;
+}
+
+.shift-down{
+	margin-top:20px;
+}
+
+.comment-container{
+	height:auto;
+	padding:20px 0px;
+}
+
+.text{
+	width:49.6%;
+	height:40px;
+	padding-left:5px;
+}
+
+.textarea{
+	width:100%;
+	margin-top:5px;
+}
+
+.submit{
+	margin-top:5px;
+	background-color:#2BA1CB;
+	padding-left:5px;
+}
+
+.comment{
+	width:100%;
+	height:auto;
+	padding:10px 10px;
+	background-color:#eee;
+	margin-top:5px;
+}
+
+.comment-head{
+	font-size:16px;
+}
+
+.comment-date{
+	font-size:14px;
+}
+
+.font-blue{
+	color:#2BA1CB;
+}
+
+.comment-body{
+	padding-left:20px;
+	text-justify:auto;
+}
+
+.comment-date{
+	font-weight:500;
+}
+
+.post-image{
+	display:block;
+	margin:0 auto;
+	width:90%;
+	height:auto;
+	margin-top:20px;
+}
+
+.post-body img{
+	display:block;
+	margin:0 auto;
+
+}
+
+.font-social{
+	font-size:22px;
+}
+
+.pad-top{
+	margin-top:30px;
+}
+
+.archive-month-container{
+	padding:0 10px;
+}
+
+.archive-head,.archive-month-container h5{
+	cursor:pointer;
+}
+
+.search-submit{
+	cursor:pointer;
+	padding:0 5px;
+}
+
+.search-text{
+	padding-left:5px;
+	width:92%;
+	height:35px;
+}
+
+.step-links{
+	font-size:15px;
+}
+
+.step-links a{
+	font-size:20px;
+}
+
+
+</style>
+</head>
+
+<body>
+<nav id="nav" class="navbar navbar-fixed-top">
+  <div class="container-fluid">
+    
+    <ul id="nav-ul" class="nav navbar-nav pull-right shift-left">
+      <li><a href="/">About</a></li>
+      <li class="active"><a>Scribles</a>
+      	<ul>
+        	<li><a href="/scrible/published/">Published</a></li><hr>
+            <li><a href="/scrible/stories/">Stories</a></li><hr>
+            <li><a href="/scrible/travelogue/">Travelogues</a></li>
+        </ul>
+      </li>
+      <li><a>Clicks</a>
+      <ul>
+        	<li><a href="/clicks/people">People</a></li><hr>
+            <li><a href="/clicks/nature">Nature</a></li><hr>
+        </ul>
+      </li>  
+      <li><a href="/contact">Contact</a></li> 
+    </ul>
+  </div>
+</nav>
+
+<section id="front" class="front">
+<p class="title-padding" align="left"><span class="font font-title font-black">Search Results</span></p>
+
+<p class="title-padding" align="left"></p>
+<div class="container container-content">
+	<div class="row">
+		<div class="col-lg-7 content">
+			<ul class="sidebar font font-post-body">
+			{% if results != False %}
+        		{% for result in results %}
+        		<li>
+        			<a href="/scrible/{{result.post_type}}/{{result.id}}/">{{result.head}}</a>
+        			<p><span class="font">{% autoescape off %}{{result.content|slice:"0:200"}}...{% endautoescape %}
+        				<a href="/scrible/{{result.post_type}}/{{result.id}}/">Read More</a></span>
+        			</p>
+        		</li><hr />
+        		{% endfor %}
+        	{% endif %}
+        	{% if results == False %}
+        		<li>
+        			<p align="center"><span class="font">No results found.!</span></p>
+        		</li>
+        	{% endif %}
+        	</ul>
+
+        	<div class="pagination">
+    			<span class="step-links">
+        			{% if results.has_previous %}
+            			<a class="fa fa-caret-left" href="?query={{ search_string }}&page={{ results.previous_page_number }}"></a>
+        			{% endif %}
+
+        			<span class="current">
+            			Page {{ results.number }} of {{ results.paginator.num_pages }}.
+        			</span>
+
+        			{% if results.has_next %}
+            			<a class="fa fa-caret-right" href="?query={{ search_string }}&page={{ results.next_page_number }}"></a>
+        			{% endif %}
+    			</span>
+			</div>
+        </div>
+
+		
+        <!-- Sidebar-->
+		<div class="col-lg-4 content">
+
+		<form id="search-form" action="/search/">
+			<p align="center">
+				<input class="search-text" type="text" placeholder="Search here..." name="query" value="{{ search_string }}"/>
+				<span onclick="$('#search-form').submit()" class="fa fa-search search-submit"></span>
+			</p>
+		</form>
+
+        <p class="post-title pad-top">
+            	<span class="font font-post-title">Recent Posts</span>
+		</p>
+        <hr />
+        
+        <ul class="sidebar font font-post-body">
+        {% for recent in recents %}
+        <li><a href="/scrible/{{recent.post_type}}/{{recent.id}}/">{{recent.head}}</a></li><hr />
+        {% endfor %}
+        </ul>
+
+        <p class="post-title pad-top">
+            	<span class="font font-post-title">Archives</span>
+		</p>
+
+		<div id="archive">
+			<h4 class="font font-md font-blue archive-head"><span class="fa fa-caret-right"></span>2015</h4>
+			<div class="archive-container">
+				<a class="font font-sm archive-content" href="#">something</a>
+			</div>
+
+			<h4 class="font font-md font-blue archive-head"><span class="fa fa-caret-right"></span>2016</h4>
+			<div class="archive-year-container">
+				<div class="archive-month-container">
+
+					<h5 class="font font-md"><span class="fa fa-caret-right"></span>January</h5>
+					<div class="carchive-month-content">
+						<a class="font font-sm archive-content" href="#">something</a>
+					</div>
+
+					<h5 class="font font-md"><span class="fa fa-caret-right"></span>January</h5>
+					<div class="archive-month-content">
+						<a class="font font-sm archive-content" href="#">something</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+        
+        
+        
+        
+	</div>
+
+</div>
+</div>
+
+
+</section>
+
+<p align="center" class="footer">
+<a href="https://www.facebook.com/profile.php?id=830062295" class="social"><i class="fa fa-facebook font-social"></i></a>
+<a href="https://twitter.com/Sharmaprijanka" class="social"><i class="fa fa-twitter font-social"></i></a>
+<a href="#" class="social"><i class="fa fa-google-plus font-social"></i></a></p>
+</body>
+</html>

@@ -1,4 +1,6 @@
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
+from django.utils.timezone import datetime
 
 # Create your models here.
 
@@ -17,10 +19,12 @@ photo_types_list=(
 class post(models.Model):
 	id=models.AutoField(primary_key=True)
 	head=models.CharField(max_length=100,default="No Title")
-	content=models.TextField(default="No Content")
+	content=RichTextUploadingField(default="No Content")
 	created_date=models.DateTimeField(auto_now_add=True,auto_now=False)
 	updated_date=models.DateTimeField(auto_now_add=False,auto_now=True)
+	selected_date=models.DateTimeField(default=datetime.now)
 	post_type=models.CharField(max_length=20,default="published",choices=post_types_list)
+	file=models.ImageField(upload_to='posts/',default='0')
 
 	def __str__(self):
 		return self.head

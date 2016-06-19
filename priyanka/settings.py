@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'index',
+    'ckeditor',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -123,3 +124,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
 MEDIA_URL='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
+
+#tinymce settings
+CKEDITOR_UPLOAD_PATH='posts'

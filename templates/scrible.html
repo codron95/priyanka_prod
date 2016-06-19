@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -9,10 +10,17 @@
 <link href='https://cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script   src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
+
+
 <script>
 
 $(document).ready(function(){
 	reveal();
+	$('#archive').accordion({active:false,collapsible:true});
+	$('.archive-month-container').accordion({active:false,collapsible:true});
 });
 
 
@@ -38,10 +46,11 @@ body{
 	min-width:1000px;
 	min-height:600px;
 	margin:0;
-	background: #deefff;
+	background-image:url({% static "" %}{{bg}});
+	background-color: #deefff;
 	background-repeat:no-repeat;
+	background-attachment:fixed;
 	background-size:cover;
-
 }
 
 .front{
@@ -59,12 +68,12 @@ body{
 .font-title{
 	font-size:28px;
 	font-weight:550;
-	color:#555555;
+	color:white;
 }
 
 .font-title-child{
 	font-size:18px;
-	color:#5C76AC;
+	color:white;
 }
 
 .font-subheads{
@@ -116,6 +125,11 @@ hr{
 	position:relative;
 }
 
+#nav-ul li a{
+	color:white;
+}
+
+
 #nav-ul li ul{
 	display:none;
 	padding:0;
@@ -138,6 +152,7 @@ hr{
 	width:100%;
 	height:100%;
 	display:block;
+	color:black;
 	
 }
 
@@ -148,6 +163,10 @@ hr{
 	background-color:#eee;
 }
 
+#nav-ul li:hover a{
+	color:black;
+}
+
 #nav-ul li:hover ul{
 	display:block;
 }
@@ -155,11 +174,16 @@ hr{
 #nav-ul li ul li:hover{
 	display:block;
 	background-color:#eee;
+	color:black;
+}
+
+.active{
+	background-color:#EEEEEE;
+	color:black !important;
 }
 
 .active a{
-	background-color:#2BA1CB;
-	color:white;
+	color:black !important;
 }
 
 .title-padding{
@@ -296,16 +320,85 @@ hr{
 .comment-date{
 	font-weight:500;
 }
+
+.post-image{
+	display:block;
+	margin:0 auto;
+	width:90%;
+	height:auto;
+	margin-top:20px;
+}
+
+.post-body img{
+	display:block;
+	margin:0 auto;
+
+}
+
+.font-social{
+	font-size:22px;
+}
+
+.pad-top{
+	margin-top:30px;
+}
+
+.archive-month-container{
+	padding:0 10px;
+}
+
+.archive-head,.archive-month-container h5{
+	cursor:pointer;
+}
+
+.search-submit{
+	cursor:pointer;
+	padding:0 5px;
+}
+
+.search-text{
+	padding-left:5px;
+	width:92%;
+	height:35px;
+}
+
 </style>
 </head>
 
 <body>
+<!-- facebook js -->
+<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+	  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- twitter js -->
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+ 
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+ 
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+
 <nav id="nav" class="navbar navbar-fixed-top">
   <div class="container-fluid">
     
     <ul id="nav-ul" class="nav navbar-nav pull-right shift-left">
-      <li class="active"><a href="/">About</a></li>
-      <li><a>Scribles</a>
+      <li><a href="/">About</a></li>
+      <li class="active"><a>Scribles</a>
       	<ul>
         	<li><a href="/scrible/published/">Published</a></li><hr>
             <li><a href="/scrible/stories/">Stories</a></li><hr>
@@ -318,12 +411,16 @@ hr{
             <li><a href="/clicks/nature">Nature</a></li><hr>
         </ul>
       </li>  
+      <li><a href="/contact">Contact</a></li> 
     </ul>
   </div>
 </nav>
 
 <section id="front" class="front">
-<p class="title-padding" align="left"><span class="font font-title">Scribles</span> <span class="font font-title-child">- {{type|title}}</span></p>
+<p class="title-padding" align="left"><span class="font font-title">Scribles</span> <span class="font font-title-child">- {{type|title}}</span>
+</p>
+
+
 <p class="title-padding" align="left"></p>
 <div class="container container-content">
 	<div class="row">
@@ -331,25 +428,43 @@ hr{
 			<p class="post-title">
             	<span class="font font-post-title">{{current.head}}</span>
 			</p>
+
             
             <p class="post-detail">
             	<span class="font font-post-detail">Posted On : {{current.created_date}}</span>
 			</p>
             
+            {% if current.file.name != "0" %}<img class="post-image" src="{{ current.file.url }}"/>{% endif %}
+
 			<div class="post-body">
-            	{{current.content|linebreaks}}
+            	{% autoescape off %}{{current.content}}{% endautoescape %}
 			</div>
             
             <p class="controls" align="center">
             <span class="control-left btn btn-danger font {% if prev_post == -1 %}{{hid}}{% endif %}"><a href="/scrible/{{prev_post.post_type}}/{{prev_post.id}}/">Older</a></span>
             <span class="control-right btn btn-info font {% if next_post == -1 %}{{hid}}{% endif %}"><a href="/scrible/{{next_post.post_type}}/{{next_post.id}}/">Newer</a></span>
             </p>
+
+            <p class="controls" align="left">
+            	<a class="fb-share-button" data-href="{{ request.build_absolute_uri }}{{ object.get_absolute_url }}" data-layout="button">
+				</a>
+
+				<a class="twitter-share-button" href="https://twitter.com/intent/tweet?text={{ request.build_absolute_uri }}{{ object.get_absolute_url }}">Tweet</a>
+
+				<a class="g-plus" data-action="share"></a>
+            </p>
 		</div>
 
 		
         <!-- Sidebar-->
 		<div class="col-lg-4 content">
-        <p class="post-title">
+		<form id="search-form" action="/search/">
+			<p align="center">
+				<input class="search-text" type="text" placeholder="Search here..." name="query"/>
+				<span onclick="$('#search-form').submit()" class="fa fa-search search-submit"></span>
+			</p>
+		</form>
+        <p class="post-title pad-top">
             	<span class="font font-post-title">Recent {{type|title}}</span>
 		</p>
         <hr />
@@ -359,18 +474,39 @@ hr{
         <li><a href="/scrible/{{recent.post_type}}/{{recent.id}}/">{{recent.head}}</a></li><hr />
         {% endfor %}
         </ul>
-        
-        
-        <p class="post-title">
-            	<span class="font font-post-title">Recent Clicks</span>
+
+        <p class="post-title pad-top">
+            	<span class="font font-post-title">Archives</span>
 		</p>
-        <hr />
-        
-        <ul class="sidebar font font-post-body">
-        <li><a href="#"></a></li><hr />
-        <li><a href="#">A journey into Chinese Food</a></li><hr />
-        </ul>
+
+		<div id="archive">
+			<h4 class="font font-md font-blue archive-head"><span class="fa fa-caret-right"></span>2015</h4>
+			<div class="archive-container">
+				<a class="font font-sm archive-content" href="#">something</a>
+			</div>
+
+			<h4 class="font font-md font-blue archive-head"><span class="fa fa-caret-right"></span>2016</h4>
+			<div class="archive-year-container">
+				<div class="archive-month-container">
+
+					<h5 class="font font-md"><span class="fa fa-caret-right"></span>January</h5>
+					<div class="carchive-month-content">
+						<a class="font font-sm archive-content" href="#">something</a>
+					</div>
+
+					<h5 class="font font-md"><span class="fa fa-caret-right"></span>January</h5>
+					<div class="archive-month-content">
+						<a class="font font-sm archive-content" href="#">something</a>
+					</div>
+
+				</div>
+			</div>
 		</div>
+        
+        
+        
+        
+	</div>
 
 </div>
 </div>
@@ -429,8 +565,8 @@ hr{
 </section>
 
 <p align="center" class="footer">
-<a href="#" class="social"><i class="fa fa-facebook"></i></a>
-<a href="#" class="social"><i class="fa fa-twitter"></i></a>
-<a href="#" class="social"><i class="fa fa-google-plus"></i></a></p>
+<a href="https://www.facebook.com/profile.php?id=830062295" class="social"><i class="fa fa-facebook font-social"></i></a>
+<a href="https://twitter.com/Sharmaprijanka" class="social"><i class="fa fa-twitter font-social"></i></a>
+<a href="#" class="social"><i class="fa fa-google-plus font-social"></i></a></p>
 </body>
 </html>
