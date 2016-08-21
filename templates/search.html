@@ -428,6 +428,26 @@ hr{
 	      <li><a href="/contact">Contact</a></li> 
 	    </ul>
     </div>
+=======
+    
+    <ul id="nav-ul" class="nav navbar-nav pull-right shift-left">
+      <li><a href="/">About</a></li>
+      <li class="active"><a>Scribles</a>
+      	<ul>
+        	<li><a href="/scrible/published/">Published</a></li><hr>
+            <li><a href="/scrible/untold/">Untold</a></li><hr>
+            <li><a href="/scrible/travelogue/">Travelogues</a></li>
+        </ul>
+      </li>
+      <li><a>Clicks</a>
+      <ul>
+        	<li><a href="/clicks/people">People</a></li><hr>
+            	<li><a href="/clicks/landscape">Landscape</a></li><hr>
+		<li><a href="/clicks/architecture">Architecture</a></li><hr>
+        </ul>
+      </li>  
+      <li><a href="/contact">Reach Me</a></li> 
+    </ul>
   </div>
 </nav>
 
@@ -456,7 +476,8 @@ hr{
         	{% endif %}
         	</ul>
 
-        	<div class="pagination">
+        	{% if results != False  %}
+		<div class="pagination">
     			<span class="step-links">
         			{% if results.has_previous %}
             			<a class="fa fa-caret-left" href="?query={{ search_string }}&page={{ results.previous_page_number }}"></a>
@@ -471,6 +492,7 @@ hr{
         			{% endif %}
     			</span>
 			</div>
+		{% endif %}
         </div>
 
 		
