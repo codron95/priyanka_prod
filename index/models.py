@@ -1,6 +1,9 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
+<<<<<<< HEAD
 from django.utils.timezone import datetime
+=======
+>>>>>>> 7aa31aba68db1100f0b457c37351958612f3ad2e
 
 # Create your models here.
 

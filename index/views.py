@@ -129,6 +129,7 @@ def create_comment(request):
 def contact(request):
 	return render(request,"contact.html")
 
+<<<<<<< HEAD
 def search(request):
 	search_string=request.GET.get("query","-1")
 	recents=post.objects.all().order_by('-created_date')[:5]
@@ -168,3 +169,6 @@ def test(request):
 
 	print(year_group)
 	return HttpResponse("Test page working"+str(''))
+=======
+
+>>>>>>> 7aa31aba68db1100f0b457c37351958612f3ad2e

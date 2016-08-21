@@ -29,9 +29,14 @@ urlpatterns = [
     url(r'clicks/(?P<type>\w+)/',views.clicks),
     url(r'^subscribe/$',views.subscribe),
     url(r'^contact/$',views.contact),
+<<<<<<< HEAD
     url(r'^search/$',views.search),
     url(r'^fetch/$',views.return_comments),
     url(r'^create/$',views.create_comment),
     url(r'^test/$',views.test),
+=======
+    url(r'^fetch/$',views.return_comments),
+    url(r'^create/$',views.create_comment),
+>>>>>>> 7aa31aba68db1100f0b457c37351958612f3ad2e
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

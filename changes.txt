@@ -1,0 +1,3 @@
+animation: slow down the appearance of rest of the image
+compress backgrounds
+move the textbox up
