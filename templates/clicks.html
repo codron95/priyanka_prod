@@ -3,9 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, width=device-width">
 <title>Priyanka Sharma</title>
 <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
 <link href='https://cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -156,13 +158,12 @@ function closephoto(){
 		padding:0;
 		border:0;
 		margin:0;
+		width:100%;
 	}
 
 	body{
 		padding-top:80px;
 		width:100%;
-		min-width:1200px;
-		min-height:600px;
 		margin:0;
 		background-image:url({% static "cli_bg.jpg" %});
 		background-color: #404040;
@@ -518,30 +519,75 @@ function closephoto(){
 	font-size:22px;
 }
 
+@media screen and (max-width: 600px){
+	.navbar-toggle{
+		background-color:rgba(255,255,255,0.2);
+		transform:scale(1.2);
+
+	}
+
+	.icon-bar{
+		background-color:white;
+	}
+
+	#nav-ul{
+		background-color:rgba(0,0,0,0.8);
+	}
+
+	#nav-ul li ul{
+		top:-20px;
+		left:-120px;
+	}
+
+	.text{
+		width:100%;
+	}
+
+	.content:nth-child(2){
+		margin-left:0;
+	}
+
+	.clicks{
+		top:-20px;
+		left:-85px !important;
+	}
+
+	
+}
+
+
 </style>
 </head>
 
 <body>
 <nav id="nav" class="navbar navbar-fixed-top">
   <div class="container-fluid">
-    
-    <ul id="nav-ul" class="nav navbar-nav pull-right shift-left">
-      <li><a href="/">About</a></li>
-      <li><a>Scribles</a>
-      	<ul>
-        	<li><a href="/scrible/published/">Published</a></li><hr>
-            <li><a href="/scrible/stories/">Stories</a></li><hr>
-            <li><a href="/scrible/travelogue/">Travelogues</a></li>
-        </ul>
-      </li>
-      <li class="active"><a>Clicks</a>
-      <ul>
-        	<li><a href="/clicks/people">People</a></li><hr>
-            <li><a href="/clicks/nature">Nature</a></li><hr>
-        </ul>
-      </li>  
-      <li><a href="/contact">Contact</a></li> 
-    </ul>
+  <div class="navbar-header">
+  	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynav">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+    </button>
+  </div>
+    <div id="mynav" class="collapse navbar-collapse">
+	    <ul id="nav-ul" class="nav navbar-nav pull-right shift-left">
+	      <li class="active"><a href="/">About</a></li>
+	      <li><a>Scribles</a>
+	      	<ul>
+	        	<li><a href="/scrible/published/">Published</a></li><hr>
+	            <li><a href="/scrible/stories/">Stories</a></li><hr>
+	            <li><a href="/scrible/travelogue/">Travelogues</a></li>
+	        </ul>
+	      </li>
+	      <li><a>Clicks</a>
+	      <ul class="clicks">
+	        	<li><a href="/clicks/people">People</a></li><hr>
+	            <li><a href="/clicks/nature">Nature</a></li><hr>
+	        </ul>
+	      </li>  
+	      <li><a href="/contact">Contact</a></li> 
+	    </ul>
+    </div>
   </div>
 </nav>
 
