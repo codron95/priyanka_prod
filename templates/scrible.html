@@ -8,7 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
 <link href='https://cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -19,8 +19,8 @@
 
 $(document).ready(function(){
 	reveal();
-	$('#archive').accordion({active:false,collapsible:true});
-	$('.archive-month-container').accordion({active:false,collapsible:true});
+	$('#archive').accordion({active:false,collapsible:true,heightStyle:'content'});
+	$('.archive-month-container').accordion({active:false,collapsible:true,heightStyle:'content'});
 });
 
 
@@ -71,6 +71,19 @@ body{
 	color:white;
 }
 
+.font-blue{
+	color:#8599BB;
+}
+
+.font-smd{
+	font-size:16px;
+}
+
+.font-archive-link{
+	text-decoration:none !important;
+	font-size:14px;
+}
+
 .font-title-child{
 	font-size:18px;
 	color:white;
@@ -104,6 +117,7 @@ body{
 .social{
 	padding:5px 10px;
 	font-size:18px;
+	color:#ddd;
 }
 
 #nav,.footer{
@@ -362,6 +376,14 @@ hr{
 	height:35px;
 }
 
+.scroll{
+	width:100%;
+	height:auto;
+	min-height:100px;
+	max-height:300px;
+	overflow-y:scroll;
+}
+
 </style>
 </head>
 
@@ -401,17 +423,18 @@ hr{
       <li class="active"><a>Scribles</a>
       	<ul>
         	<li><a href="/scrible/published/">Published</a></li><hr>
-            <li><a href="/scrible/stories/">Stories</a></li><hr>
+            <li><a href="/scrible/untold/">Untold</a></li><hr>
             <li><a href="/scrible/travelogue/">Travelogues</a></li>
         </ul>
       </li>
       <li><a>Clicks</a>
       <ul>
         	<li><a href="/clicks/people">People</a></li><hr>
-            <li><a href="/clicks/nature">Nature</a></li><hr>
+            <li><a href="/clicks/landscape">Landscape</a></li><hr>
+		<li><a href="/clicks/architecture">Architecture</a></li><hr>
         </ul>
       </li>  
-      <li><a href="/contact">Contact</a></li> 
+      <li><a href="/contact">Reach Me</a></li> 
     </ul>
   </div>
 </nav>
@@ -431,7 +454,7 @@ hr{
 
             
             <p class="post-detail">
-            	<span class="font font-post-detail">Posted On : {{current.created_date}}</span>
+            	<span class="font font-post-detail">Posted On : {{current.selected_date}}</span>
 			</p>
             
             {% if current.file.name != "0" %}<img class="post-image" src="{{ current.file.url }}"/>{% endif %}
@@ -475,32 +498,26 @@ hr{
         {% endfor %}
         </ul>
 
-        <p class="post-title pad-top">
+	<p class="post-title pad-top">
             	<span class="font font-post-title">Archives</span>
 		</p>
 
 		<div id="archive">
-			<h4 class="font font-md font-blue archive-head"><span class="fa fa-caret-right"></span>2015</h4>
-			<div class="archive-container">
-				<a class="font font-sm archive-content" href="#">something</a>
-			</div>
-
-			<h4 class="font font-md font-blue archive-head"><span class="fa fa-caret-right"></span>2016</h4>
+			{% for year,cont in arc_data.items %}
+			<h4 class="font font-md font-blue archive-head"><span class="fa fa-caret-right"></span>{{year}}</h4>
 			<div class="archive-year-container">
 				<div class="archive-month-container">
-
-					<h5 class="font font-md"><span class="fa fa-caret-right"></span>January</h5>
+					{% for month,posts in cont.items %}
+					<h5 class="font font-smd"><span class="fa fa-caret-right"></span>{{month}}</h5>
 					<div class="carchive-month-content">
-						<a class="font font-sm archive-content" href="#">something</a>
+					{% for post in posts %}
+							<p><a class="font font-archive-link" href="/scrible/{{post.post_type}}/{{post.id}}/">{{post.head}}</a></p><hr>
+					{% endfor %}
 					</div>
-
-					<h5 class="font font-md"><span class="fa fa-caret-right"></span>January</h5>
-					<div class="archive-month-content">
-						<a class="font font-sm archive-content" href="#">something</a>
-					</div>
-
+					{% endfor %}
 				</div>
 			</div>
+			{% endfor %}
 		</div>
         
         
