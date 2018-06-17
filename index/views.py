@@ -44,12 +44,12 @@ def scrible(request,type,id=-1):
 		new_comment.save()
 
 	try:
-		next_post=current_post.get_next_by_created_date(post_type=type.strip())
+		next_post=current_post.get_next_by_selected_date(post_type=type.strip())
 	except post.DoesNotExist:
 		next_post=-1
 	
 	try:
-		prev_post=current_post.get_previous_by_created_date(post_type=type.strip())
+		prev_post=current_post.get_previous_by_selected_date(post_type=type.strip())
 	except post.DoesNotExist:
 		prev_post=-1
 
@@ -69,7 +69,35 @@ def scrible(request,type,id=-1):
 	except EmptyPage:
 		comment_page = paginator.page(paginator.num_pages)
 
-	recents=post.objects.filter(post_type=type.strip()).order_by('-created_date')[:5]
+	recents=post.objects.filter(post_type=type.strip()).order_by('-selected_date')[:5]
+	posts_all=post.objects.filter(post_type=type.strip()).order_by('-selected_date')
+
+	months=('January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December')
+
+	year_group={}
+	temp={}
+	year_start=2014
+	year_now=datetime.now().year
+	for i in range(year_start,year_now+1):
+		temp={}
+		for k in range(1,13):
+			p=post.objects.filter(selected_date__year=i,selected_date__month=k)
+			if p.count():
+				temp[months[k-1]]=p
+		if len(temp):
+			year_group[i]=temp
+
 
 	context={'current':current_post,
 			'next_post':next_post,
@@ -78,7 +106,9 @@ def scrible(request,type,id=-1):
 			'recents':recents,
 			'comments':comment_page,
 			'url':request.path,
-			'bg':bg,}
+			'bg':bg,
+			'all':posts_all,
+			'arc_data':year_group}
 	return render(request,"scrible.html",context)
 
 def clicks(request,type):
@@ -129,7 +159,6 @@ def create_comment(request):
 def contact(request):
 	return render(request,"contact.html")
 
-<<<<<<< HEAD
 def search(request):
 	search_string=request.GET.get("query","-1")
 	recents=post.objects.all().order_by('-created_date')[:5]
@@ -169,6 +198,3 @@ def test(request):
 
 	print(year_group)
 	return HttpResponse("Test page working"+str(''))
-=======
-
->>>>>>> 7aa31aba68db1100f0b457c37351958612f3ad2e
