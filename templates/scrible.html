@@ -573,53 +573,24 @@ hr{
 </div>
 </div>
 
-
 <div class="container">
 	<div class="row">
 		<div class="col-lg-7 content">
-			<p class="post-title">
-            	<span class="font font-post-title">Post A Comment</span>
-			</p>
-			<p class="comment-form">
-				<form action="{{url}}" method="POST">
-					{% csrf_token %}
-					<input type="text" class="text" placeholder="Name" name="name"/>
-					<input type="text" class="text" placeholder="Email" name="email"/>
-					<textarea rows="5" class="textarea" placeholder="Your Comment" name="content"></textarea>
-					<input type="submit" class="btn btn-info submit" value="submit"/>
-				</form>
-			</p>
+			<div id="disqus_thread"></div>
+			<script>
+				var disqus_config = function () {
+				this.page.url = "{{disqus_page_identifier}}";
+				this.page.identifier = "{{disqus_post_identifier}}";
+			};
 
-			<p class="post-title">
-            	<span class="font font-post-title">Comments</span>
-			</p>
-
-			<div class="comment-container">
-			{% for comment in comments %}
-				<div class="comment">
-					
-					<p><span class="font comment-head"><span class="font-blue">{{comment.name}}</span> - <span class="comment-date">{{comment.created_date}}</span></span></p>
-					<p><span class="comment-body">-{{comment.content}}</span></p>
-					
-				</div>
-			{% endfor %}
-			</div>
-
-			<div class="pagination">
-    			<span class="step-links">
-        			{% if comments.has_previous %}
-            			<a href="?page={{ comments.previous_page_number }}">previous</a>
-        			{% endif %}
-
-        			<span class="current">
-            			Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
-        			</span>
-
-        			{% if comments.has_next %}
-            			<a href="?page={{ comments.next_page_number }}">next</a>
-        			{% endif %}
-    			</span>
-			</div>
+			(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://prijankasharma.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+			})();
+			</script>
+			<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 		</div>
 	</div>
 </div>

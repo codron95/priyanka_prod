@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from django.utils.timezone import datetime
 from django.db.models import Q
+from django.core.urlresolvers import reverse
 
 # Create your views here.
 def index(request):
@@ -98,6 +99,14 @@ def scrible(request,type,id=-1):
 		if len(temp):
 			year_group[i]=temp
 
+	# calculate disqus properties
+	page_relative_url = reverse("scrible-param", kwargs={
+													"type":current_post.post_type,
+													"id":current_post.pk
+												})
+	disqus_page_identifier = request.build_absolute_uri(page_relative_url)
+	disqus_post_identifier = page_relative_url
+
 
 	context={'current':current_post,
 			'next_post':next_post,
@@ -108,7 +117,9 @@ def scrible(request,type,id=-1):
 			'url':request.path,
 			'bg':bg,
 			'all':posts_all,
-			'arc_data':year_group}
+			'arc_data':year_group,
+			'disqus_page_identifier': disqus_page_identifier,
+			'disqus_post_identifier': disqus_post_identifier}
 	return render(request,"scrible.html",context)
 
 def clicks(request,type):
