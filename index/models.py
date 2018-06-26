@@ -25,6 +25,12 @@ class post(models.Model):
 	selected_date=models.DateTimeField(default=datetime.now)
 	post_type=models.CharField(max_length=20,default="published",choices=post_types_list)
 	file=models.ImageField(upload_to='posts/',default='0')
+	link = models.CharField(
+						max_length=100,
+						null=False,
+						blank=True,
+						default="This will be auto-generated"
+					)
 
 	def __str__(self):
 		return self.head
