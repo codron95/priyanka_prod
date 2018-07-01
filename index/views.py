@@ -27,7 +27,7 @@ def subscribe(request):
 		subscriber.save()
 		return HttpResponse("You are awesome.!")
 
-def scrible(request,type,id=-1):
+def scrible(request,type,link=None):
 	bg="sto_bg.jpg";
 	if type=="stories":
 		bg="sto_bg.jpg";
@@ -36,15 +36,11 @@ def scrible(request,type,id=-1):
 	elif type=="published":
 		bg="pub_bg.jpg";
 
-	if id==-1:
+	if link is None:
 		posts=post.objects.filter(post_type=type.strip()).order_by('-selected_date')
 		current_post=posts[0]
 	else:
-		current_post=get_object_or_404(post,id=id,post_type=type.strip())
-
-	if request.method=="POST":
-		new_comment=comment(name=request.POST['name'],content=request.POST['content'],post=current_post,email=request.POST['email'])
-		new_comment.save()
+		current_post=get_object_or_404(post,link=link,post_type=type.strip())
 
 	try:
 		next_post=current_post.get_next_by_selected_date(post_type=type.strip())
@@ -55,22 +51,6 @@ def scrible(request,type,id=-1):
 		prev_post=current_post.get_previous_by_selected_date(post_type=type.strip())
 	except post.DoesNotExist:
 		prev_post=-1
-
-
-
-	try:
-		comments=current_post.comment_set.all().order_by('-created_date')
-	except:
-		comments=-1
-
-	paginator = Paginator(comments, 10)
-	page = request.GET.get('page')
-	try:
-		comment_page = paginator.page(page)
-	except PageNotAnInteger:
-		comment_page = paginator.page(1)
-	except EmptyPage:
-		comment_page = paginator.page(paginator.num_pages)
 
 	recents=post.objects.filter(post_type=type.strip()).order_by('-selected_date')[:5]
 	posts_all=post.objects.filter(post_type=type.strip()).order_by('-selected_date')
@@ -103,7 +83,7 @@ def scrible(request,type,id=-1):
 	# calculate disqus properties
 	page_relative_url = reverse("scrible-param", kwargs={
 													"type":current_post.post_type,
-													"id":current_post.pk
+													"link":current_post.link
 												})
 	disqus_page_identifier = request.build_absolute_uri(page_relative_url)
 	disqus_post_identifier = page_relative_url
@@ -114,7 +94,6 @@ def scrible(request,type,id=-1):
 			'prev_post':prev_post,
 			'hid':'hide','type':type,
 			'recents':recents,
-			'comments':comment_page,
 			'url':request.path,
 			'bg':bg,
 			'all':posts_all,

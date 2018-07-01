@@ -24,7 +24,7 @@ from django.conf.urls import include
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index ),
-    url(r'scrible/(?P<type>\w+)/(?P<id>\d+)/',views.scrible, name="scrible-param"),
+    url(r'scrible/(?P<type>\w+)/(?P<link>[-\w]+)/',views.scrible, name="scrible-param"),
     url(r'scrible/(?P<type>\w+)/',views.scrible),
     url(r'clicks/(?P<type>\w+)/',views.clicks),
     url(r'^subscribe/$',views.subscribe),

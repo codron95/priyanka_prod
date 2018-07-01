@@ -507,8 +507,8 @@ hr{
 			</div>
             
             <p class="controls" align="center">
-            <span class="control-left btn btn-danger font {% if prev_post == -1 %}{{hid}}{% endif %}"><a href="/scrible/{{prev_post.post_type}}/{{prev_post.id}}/">Older</a></span>
-            <span class="control-right btn btn-info font {% if next_post == -1 %}{{hid}}{% endif %}"><a href="/scrible/{{next_post.post_type}}/{{next_post.id}}/">Newer</a></span>
+            <span class="control-left btn btn-danger font {% if prev_post == -1 %}{{hid}}{% endif %}"><a href="/scrible/{{prev_post.post_type}}/{{prev_post.link}}/">Older</a></span>
+            <span class="control-right btn btn-info font {% if next_post == -1 %}{{hid}}{% endif %}"><a href="/scrible/{{next_post.post_type}}/{{next_post.link}}/">Newer</a></span>
             </p>
 
             <p class="controls" align="left">
@@ -537,7 +537,7 @@ hr{
         
         <ul class="sidebar font font-post-body">
         {% for recent in recents %}
-        <li><a href="/scrible/{{recent.post_type}}/{{recent.id}}/">{{recent.head}}</a></li><hr />
+        <li><a href="/scrible/{{recent.post_type}}/{{recent.link}}/">{{recent.head}}</a></li><hr />
         {% endfor %}
         </ul>
 
@@ -554,7 +554,7 @@ hr{
 					<h5 class="font font-smd"><span class="fa fa-caret-right"></span>{{month}}</h5>
 					<div class="carchive-month-content">
 					{% for post in posts %}
-							<p><a class="font font-archive-link" href="/scrible/{{post.post_type}}/{{post.id}}/">{{post.head}}</a></p><hr>
+							<p><a class="font font-archive-link" href="/scrible/{{post.post_type}}/{{post.link}}/">{{post.head}}</a></p><hr>
 					{% endfor %}
 					</div>
 					{% endfor %}
