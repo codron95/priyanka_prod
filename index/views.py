@@ -63,15 +63,6 @@ def scrible(request,type,link=None):
 	except:
 		comments=-1
 
-	paginator = Paginator(comments, 10)
-	page = request.GET.get('page')
-	try:
-		comment_page = paginator.page(page)
-	except PageNotAnInteger:
-		comment_page = paginator.page(1)
-	except EmptyPage:
-		comment_page = paginator.page(paginator.num_pages)
-
 	recents=post.objects.filter(post_type=type.strip()).order_by('-selected_date')[:5]
 	posts_all=post.objects.filter(post_type=type.strip()).order_by('-selected_date')
 
@@ -114,7 +105,6 @@ def scrible(request,type,link=None):
 			'prev_post':prev_post,
 			'hid':'hide','type':type,
 			'recents':recents,
-			'comments':comment_page,
 			'url':request.path,
 			'bg':bg,
 			'all':posts_all,
