@@ -42,10 +42,6 @@ def scrible(request,type,link=None):
 	else:
 		current_post=get_object_or_404(post,link=link,post_type=type.strip())
 
-	if request.method=="POST":
-		new_comment=comment(name=request.POST['name'],content=request.POST['content'],post=current_post,email=request.POST['email'])
-		new_comment.save()
-
 	try:
 		next_post=current_post.get_next_by_selected_date(post_type=type.strip())
 	except post.DoesNotExist:
@@ -55,13 +51,6 @@ def scrible(request,type,link=None):
 		prev_post=current_post.get_previous_by_selected_date(post_type=type.strip())
 	except post.DoesNotExist:
 		prev_post=-1
-
-
-
-	try:
-		comments=current_post.comment_set.all().order_by('-created_date')
-	except:
-		comments=-1
 
 	recents=post.objects.filter(post_type=type.strip()).order_by('-selected_date')[:5]
 	posts_all=post.objects.filter(post_type=type.strip()).order_by('-selected_date')
