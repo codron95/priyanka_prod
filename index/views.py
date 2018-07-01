@@ -83,7 +83,7 @@ def scrible(request,type,link=None):
 	# calculate disqus properties
 	page_relative_url = reverse("scrible-param", kwargs={
 													"type":current_post.post_type,
-													"id":current_post.pk
+													"link":current_post.link
 												})
 	disqus_page_identifier = request.build_absolute_uri(page_relative_url)
 	disqus_post_identifier = page_relative_url
