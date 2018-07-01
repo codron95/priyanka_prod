@@ -27,7 +27,7 @@ def subscribe(request):
 		subscriber.save()
 		return HttpResponse("You are awesome.!")
 
-def scrible(request,type,id=-1):
+def scrible(request,type,link=None):
 	bg="sto_bg.jpg";
 	if type=="stories":
 		bg="sto_bg.jpg";
@@ -36,11 +36,11 @@ def scrible(request,type,id=-1):
 	elif type=="published":
 		bg="pub_bg.jpg";
 
-	if id==-1:
+	if link is None:
 		posts=post.objects.filter(post_type=type.strip()).order_by('-selected_date')
 		current_post=posts[0]
 	else:
-		current_post=get_object_or_404(post,id=id,post_type=type.strip())
+		current_post=get_object_or_404(post,link=link,post_type=type.strip())
 
 	if request.method=="POST":
 		new_comment=comment(name=request.POST['name'],content=request.POST['content'],post=current_post,email=request.POST['email'])
