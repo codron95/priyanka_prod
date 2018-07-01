@@ -1,10 +1,12 @@
+import json
+from collections import OrderedDict
+
 from django.shortcuts import render,get_object_or_404
 from priyanka.settings import MEDIA_URL
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import post,photo,comment,subscribers,comment_photo
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import json
 from django.utils.timezone import datetime
 from django.db.models import Q
 from django.core.urlresolvers import reverse
@@ -87,11 +89,10 @@ def scrible(request,type,id=-1):
 		'December')
 
 	year_group={}
-	temp={}
 	year_start=2014
 	year_now=datetime.now().year
 	for i in range(year_start,year_now+1):
-		temp={}
+		temp = OrderedDict()
 		for k in range(1,13):
 			p=post.objects.filter(selected_date__year=i,selected_date__month=k)
 			if p.count():
